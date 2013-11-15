@@ -1,0 +1,11 @@
+#+TITLE: libdispass
+
+A simple test executable (should be converted to library) of [[https://babab.nl][Benjamin
+Althues]]' DisPass algorithms.
+
+To run:
+
+: make && ./dispasstest
+
+It should output 4 lines with the hashed passphrases copied from the
+DisPass algorithms' doctests.
