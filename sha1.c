@@ -71,18 +71,17 @@ rmchar(char rm, char **s)
 }
 
 char *
-dispass1(char *label, char *password, int len, int seqno)
+dispass1(char *label, char *password, int len, long long unsigned seqno)
 {
-    int i;
     unsigned char *d;
-    long tbufflen = strlen(label) + strlen(password) + 1;
+    size_t tbufflen = strlen(label) + strlen(password) + 1;
     char *tbuff = calloc(tbufflen, sizeof(char));
     char buff[MAXLEN + 1] = { '\0' };
     char *b64;
 
     strcat(tbuff, label);
     strcat(tbuff, password);
-    d = SHA512(tbuff, strlen(tbuff), 0);
+    d = SHA512((unsigned char *)tbuff, strlen(tbuff), 0);
     free(tbuff);
     sha512_to_string(d, buff);
     b64 = base64encode(buff, strlen(buff));
@@ -93,9 +92,8 @@ dispass1(char *label, char *password, int len, int seqno)
 }
 
 char *
-dispass2(char *label, char *password, int len, int seqno)
+dispass2(char *label, char *password, int len, long long unsigned seqno)
 {
-    int i;
     unsigned char *d;
     char ibuff[300];
     char *tbuff, *b64;
@@ -107,7 +105,7 @@ dispass2(char *label, char *password, int len, int seqno)
     strcat(tbuff, label);
     strcat(tbuff, ibuff);
     strcat(tbuff, password);
-    d = SHA512(tbuff, strlen(tbuff), 0);
+    d = SHA512((unsigned char *)tbuff, strlen(tbuff), 0);
     free(tbuff);
     sha512_to_string(d, buff);
     b64 = base64encode(buff, strlen(buff));
