@@ -46,6 +46,30 @@ sha512_to_string(unsigned char *data, char *buff)
     }
 }
 
+void
+rmchar(char rm, char **s)
+{
+    int i, j = 0;
+    char *new;
+    size_t len;
+
+    if (!strchr(*s, rm))
+        return;
+
+    len = strlen(*s);
+    new = calloc(len + 1, sizeof(char));
+
+    for (i = 0; i < len; i++) {
+        char c;
+
+        if ((c = (*s)[i]) != rm)
+            new[j++] = c;
+    }
+
+    strncpy(*s, new, len);
+    free(new);
+}
+
 char *
 dispass1(char *label, char *password, int len, int seqno)
 {
@@ -63,6 +87,7 @@ dispass1(char *label, char *password, int len, int seqno)
     sha512_to_string(d, buff);
     b64 = base64encode(buff, strlen(buff));
     b64[MIN(len, MAXLEN)] = '\0';
+    rmchar('=', &b64);
 
     return b64;
 }
@@ -87,6 +112,7 @@ dispass2(char *label, char *password, int len, int seqno)
     sha512_to_string(d, buff);
     b64 = base64encode(buff, strlen(buff));
     b64[MIN(len, MAXLEN)] = '\0';
+    rmchar('=', &b64);
 
     return b64;
 }
