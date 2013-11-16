@@ -1,2 +1,2 @@
-dispasstest: sha1.c
-	gcc -lcrypto sha1.c -o dispasstest
+dispasstest: dispass.c
+	gcc -lcrypto dispass.c -o dispasstest
