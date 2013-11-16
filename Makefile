@@ -1,2 +1,4 @@
-dispasstest: dispass.c
-	gcc -lcrypto dispass.c -o dispasstest
+CFLAGS = -lcrypto -fPIC
+
+libdispass.so: dispass.o
+	$(CC) $(CFLAGS) -shared -o libdispass.so $^
