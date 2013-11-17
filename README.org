@@ -3,9 +3,9 @@
 A simple test executable (should be converted to library) of [[https://babab.nl][Benjamin
 Althues]]' DisPass algorithms.
 
-To run:
+To run a test:
 
-: make && ./dispasstest
+: make dispasstest && LD_LIBRARY_PATH=. ./dispasstest
 
 It should output 4 lines with the hashed passphrases copied from the
 DisPass algorithms' doctests.

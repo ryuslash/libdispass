@@ -4,10 +4,12 @@
 #include <openssl/pem.h>
 #include <limits.h>
 
+#include "dispass.h"
+
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
 #define MAXLEN (SHA512_DIGEST_LENGTH * 2)
 
-char *
+static char *
 base64encode(const void *data, int len)
 { /* Copied from http://stackoverflow.com/a/16511093/459915 */
     BIO *b64_bio, *mem_bio;
@@ -34,7 +36,7 @@ base64encode(const void *data, int len)
     return ret;
 }
 
-void
+static void
 sha512_to_string(unsigned char *data, char *buff)
 {
     int i;
@@ -46,7 +48,7 @@ sha512_to_string(unsigned char *data, char *buff)
     }
 }
 
-void
+static void
 rmchar(char rm, char **s)
 {
     int i, j = 0;
@@ -113,26 +115,4 @@ dispass2(char *label, char *password, int len, long long unsigned seqno)
     rmchar('=', &b64);
 
     return b64;
-}
-
-int main(int argc, char *argv[])
-{
-    char *test1, *test2, *test3, *test4;
-
-    test1 = dispass1("test", "qqqqqqqq", 30, 0);
-    test2 = dispass1("test2", "qqqqqqqq", 50, 0);
-    test3 = dispass2("test", "qqqqqqqq", 30, 1);
-    test4 = dispass2("test2", "qqqqqqqq", 50, 10);
-
-    printf("%s\n", test1);
-    printf("%s\n", test2);
-    printf("%s\n", test3);
-    printf("%s\n", test4);
-
-    free(test1);
-    free(test2);
-    free(test3);
-    free(test4);
-
-    return 0;
 }
